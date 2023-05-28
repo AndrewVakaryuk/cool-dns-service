@@ -6,6 +6,11 @@ class CoolDNSService
     public function getDnsRecords(string $domain): array
     {
         $dnsRecords = dns_get_record($domain, DNS_ALL);
+
+        if ($dnsRecords === false) {
+            throw new \RuntimeException("Failed to get DNS records for domain: $domain");
+        }
+
         $formattedRecords = [];
 
         foreach ($dnsRecords as $record) {
